@@ -2,9 +2,13 @@
 
 Pazardan balık kaçıran sinsi bir kara kedinin pixel gizlilik oyunu. Kuşbakışı, 6 bölüm; tarayıcıda klavyeyle ya da telefonda dokunarak oynanır.
 
-## Nasıl açılır?
+🐟 **Tarayıcıda oyna:** https://muhammedozkul.github.io/kacak-kedi/
 
-`index.html` dosyasına çift tıklaman yeter. Kurulum, sunucu ya da internet gerekmez (yalnız pixel yazı tipi internetten gelir; yoksa yedek yazı tipi kullanılır).
+Kurulum gerekmez; bilgisayarda ve telefonda Chrome, Edge, Safari ya da Firefox ile açılır.
+
+## Bilgisayarda açmak
+
+Depoyu indirip `index.html` dosyasına çift tıklaman yeter. Kurulum, sunucu ya da internet gerekmez (yalnız pixel yazı tipi internetten gelir; yoksa yedek yazı tipi kullanılır).
 
 ## Nasıl oynanır?
 
