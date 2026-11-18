@@ -1,0 +1,147 @@
+<!doctype html>
+<html lang="tr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, user-scalable=no">
+  <meta name="theme-color" content="#1b1424">
+  <meta name="description" content="Kaçak Kedi: pazardan balık kaçıran sinsi bir kedinin pixel gizlilik oyunu.">
+  <title>Kaçak Kedi</title>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' shape-rendering='crispEdges'%3E%3Cpath fill='%231b1424' d='M2 3h2v1h1v1h6V4h1V3h2v9h-1v1H3v-1H2z'/%3E%3Cpath fill='%233a3346' d='M3 4h1v2h8V4h1v7H3z'/%3E%3Cpath fill='%23ff9a2e' d='M5 7h2v2H5zM9 7h2v2H9z'/%3E%3Cpath fill='%23ef8fa6' d='M7 9h2v1H7z'/%3E%3C/svg%3E">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Pixelify+Sans:wght@400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/stil.css">
+</head>
+<body>
+  <canvas id="oyun" aria-label="Oyun alanı"></canvas>
+
+  <!-- Oyun içi gösterge -->
+  <div id="hud" hidden>
+    <div class="hud-sol">
+      <div class="hud-kutu">
+        <span class="hud-balik"><i class="ikon-balik" aria-hidden="true"></i><b id="hud-balik">0/0</b></span>
+        <span class="hud-sure" id="hud-sure">0:00</span>
+      </div>
+      <div class="suphe" aria-label="Şüphe">
+        <span>ŞÜPHE</span>
+        <div class="suphe-cubuk"><i id="suphe-dolu"></i></div>
+      </div>
+      <div class="hud-durum" id="hud-durum"></div>
+    </div>
+    <div class="hud-sag">
+      <button class="kare-dugme" id="dugme-ses" type="button" aria-label="Sesi aç/kapat" title="Ses (M)">♪</button>
+      <button class="kare-dugme" id="dugme-duraklat" type="button" aria-label="Duraklat" title="Duraklat (Esc)">II</button>
+    </div>
+  </div>
+
+  <div id="mesaj" role="status" aria-live="polite"></div>
+
+  <!-- Dokunmatik kontroller -->
+  <div id="joystick" aria-hidden="true"><div id="topuz"></div></div>
+  <button id="sinsi-dugme" type="button" aria-label="Sessiz yürü (basılı tut)">SESSİZ</button>
+
+  <!-- Başlık ekranı -->
+  <section class="ekran" id="ekran-baslik">
+    <div class="ekran-ic baslik-ic">
+      <canvas id="baslik-kedi" width="16" height="12" aria-hidden="true"></canvas>
+      <h1>KAÇAK<br>KEDİ</h1>
+      <p class="alt-baslik">Pazarın en sinsi kedisi iş başında</p>
+      <div class="dugmeler">
+        <button class="dugme birincil" id="dugme-oyna" type="button">OYNA</button>
+        <button class="dugme" id="dugme-nasil" type="button">NASIL OYNANIR?</button>
+      </div>
+      <p class="imza">Geliştiren: Muhammed Yaşar ÖZKUL</p>
+    </div>
+  </section>
+
+  <!-- Nasıl oynanır -->
+  <section class="ekran" id="ekran-nasil" hidden>
+    <div class="ekran-ic kutu">
+      <h2>NASIL OYNANIR?</h2>
+      <ul class="kurallar">
+        <li><b>Amaç:</b> Bütün balıkları topla, sonra parlayan kaçış deliğine koş.</li>
+        <li><b>Sarı alan</b> satıcının gördüğü yer. İçine girersen şüphe çubuğu dolar; dolarsa yakalanırsın.</li>
+        <li><b>Sessiz yürü:</b> Shift'e basılı tut (telefonda joystiği az it ya da SESSİZ düğmesine bas). Yavaşsın ama köpekler duymaz, birikintiler şapırdamaz.</li>
+        <li><b>Saklan:</b> Çuval yığınlarının ve çay masalarının üstünde durunca ya da sessizce yürürken görünmezsin.</li>
+        <li><b>Köpekler</b> az görür, çok iyi duyar. Yanlarından koşarak geçme.</li>
+        <li><b>Yıldızlar:</b> ★ bitir · ★ hedef sürenin altında bitir · ★ hiç fark edilmeden bitir.</li>
+      </ul>
+      <p class="tuslar">Oklar / WASD: yürü · Shift: sessiz · Esc: duraklat · R: baştan · M: ses</p>
+      <div class="dugmeler">
+        <button class="dugme birincil" id="dugme-nasil-tamam" type="button">TAMAM</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- Bölüm seçimi -->
+  <section class="ekran" id="ekran-bolumler" hidden>
+    <div class="ekran-ic kutu genis">
+      <h2>BÖLÜMLER</h2>
+      <div class="bolum-izgara" id="bolum-izgara"></div>
+      <div class="dugmeler">
+        <button class="dugme" id="dugme-bolumler-geri" type="button">GERİ</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- Bölüm girişi -->
+  <section class="ekran yari" id="ekran-giris" hidden>
+    <div class="ekran-ic kutu">
+      <p class="ust-yazi" id="giris-sira">BÖLÜM 1</p>
+      <h2 id="giris-ad">Balık Pazarı</h2>
+      <p class="ipucu" id="giris-ipucu"></p>
+      <p class="hedef" id="giris-hedef"></p>
+      <div class="dugmeler">
+        <button class="dugme birincil" id="dugme-basla" type="button">BAŞLA</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- Duraklatma -->
+  <section class="ekran yari" id="ekran-duraklat" hidden>
+    <div class="ekran-ic kutu">
+      <h2>DURAKLATILDI</h2>
+      <div class="dugmeler dikey">
+        <button class="dugme birincil" id="dugme-devam" type="button">DEVAM</button>
+        <button class="dugme" id="dugme-yeniden" type="button">BAŞTAN BAŞLA</button>
+        <button class="dugme" id="dugme-cik" type="button">BÖLÜMLER</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- Yakalandın -->
+  <section class="ekran yari" id="ekran-yakalandi" hidden>
+    <div class="ekran-ic kutu">
+      <h2 class="kirmizi">YAKALANDIN!</h2>
+      <p class="ipucu" id="yakalandi-yazi">Satıcı seni kulağından tutup pazarın dışına bıraktı.</p>
+      <div class="dugmeler">
+        <button class="dugme birincil" id="dugme-tekrar" type="button">TEKRAR DENE</button>
+        <button class="dugme" id="dugme-yakalandi-cik" type="button">BÖLÜMLER</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- Kazandın -->
+  <section class="ekran yari" id="ekran-kazandi" hidden>
+    <div class="ekran-ic kutu">
+      <p class="ust-yazi">KAÇTIN!</p>
+      <h2 id="kazandi-ad">Balık Pazarı</h2>
+      <div class="yildizlar buyuk" id="kazandi-yildiz"></div>
+      <ul class="sonuc" id="kazandi-sonuc"></ul>
+      <div class="dugmeler">
+        <button class="dugme birincil" id="dugme-sonraki" type="button">SONRAKİ BÖLÜM</button>
+        <button class="dugme" id="dugme-kazandi-tekrar" type="button">TEKRAR</button>
+        <button class="dugme" id="dugme-kazandi-cik" type="button">BÖLÜMLER</button>
+      </div>
+    </div>
+  </section>
+
+  <script src="js/sprite.js"></script>
+  <script src="js/ses.js"></script>
+  <script src="js/bolumler.js"></script>
+  <script src="js/harita-cizim.js"></script>
+  <script src="js/oyun.js"></script>
+  <script src="js/giris.js"></script>
+  <script src="js/arayuz.js"></script>
+</body>
+</html>
