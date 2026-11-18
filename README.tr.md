@@ -8,6 +8,8 @@ Pazardan balık kaçıran sinsi bir kara kedinin pixel gizlilik oyunu. Kuşbakı
 
 Kurulum gerekmez; bilgisayarda ve telefonda Chrome, Edge, Safari ya da Firefox ile açılır.
 
+<p align="center"><img src="media/demo.gif" alt="Kara kedi satıcıya görünmeden balıkları kapıyor" width="720"></p>
+
 ## Bilgisayarda açmak
 
 Depoyu indirip `index.html` dosyasına çift tıklaman yeter. Kurulum, sunucu ya da internet gerekmez (yalnız pixel yazı tipi internetten gelir; yoksa yedek yazı tipi kullanılır).

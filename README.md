@@ -8,6 +8,8 @@ A pixel-art stealth game about a sneaky black cat stealing fish from the market.
 
 No installation required; works in Chrome, Edge, Safari or Firefox on computers and phones.
 
+<p align="center"><img src="media/demo.gif" alt="The black cat sneaks past the vendor and steals fish" width="720"></p>
+
 ## Opening it on your computer
 
 Download the repository and double-click `index.html`. No installation, server or internet needed (only the pixel font is loaded from the internet; a fallback font is used otherwise).
